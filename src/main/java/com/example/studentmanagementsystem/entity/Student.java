@@ -1,6 +1,7 @@
 package com.example.studentmanagementsystem.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 
 @Entity
@@ -11,24 +12,28 @@ public class Student {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "First name is required")
     @Column(name = "firstname", nullable = false)
     private String firstname;
 
+    @NotBlank(message = "Last name is required")
     @Column(name = "lastname", nullable = false)
     private String lastname;
 
+    @NotBlank(message = "Email is required")
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Column(name = "course")
+    @NotBlank(message = "Course is required")
+    @Column(name = "course", nullable = false)
     private String course;
 
-    //getter
-    // Default constructor required by JPA
+
+    // Default constructor
     public Student() {
     }
 
-    // --- GETTERS AND SETTERS ---
+    //  GETTERS AND SETTERS
 
     public Long getId() {
         return id;
