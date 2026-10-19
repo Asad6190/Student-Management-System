@@ -1,0 +1,28 @@
+
+services:
+  mysql-db:
+    image: mysql:8.0
+    container_name: student-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: student_db
+    ports:
+      - "3307:3306" # We use 3307 so it doesn't conflict with your local MySQL
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  spring-app:
+    build: .
+    container_name: student-app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql-db
+    environment:
+      # Overrides application.properties to connect to the Docker database
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/student_db
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+
+volumes:
+  mysql-data:
